@@ -21,7 +21,7 @@ Use the following steps for installation.
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/dhananjaichand98/Percptron-Hotel-Review-Classifier.git
+   git clone https://github.com/dhananjaichand98/Perceptron-Hotel-Review-Classifier.git
    ```
 3. Install required Python packages
    ```sh

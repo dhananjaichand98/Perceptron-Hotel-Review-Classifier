@@ -8,6 +8,13 @@ TRUTH_ENCODING = {"Fake" : 1, "True": -1}
 SENTIMENT_ENCODING = {"Pos": 1, "Neg": -1}
 
 class PerceptronTrain:
+    """
+        This class trains perceptron model
+
+        Attributes:
+            b: bias value
+            w: 1-D list of weights            
+    """
 
     def __init__(self):
         """
@@ -34,12 +41,12 @@ class PerceptronTrain:
                 a = np.multiply(xi, self.w).sum() + self.b
 
                 if yi*a <= 0:
-                    # we update weights on error
-                    self.w = self.w + np.multiply(xi, yi)
-                    self.b = self.b + yi
+                    # update weights on error
+                    self.w = self.w + np.multiply(xi, yi)*0.01
+                    self.b = self.b + yi*0.01
             
-            # y_pred = self.predict(X, y)
-            # self.accuracy(y_pred, y)
+            # y_pred = self.predict(X)
+            # print(self.accuracy(y_pred, y))
 
         return self.w, self.b
 
@@ -64,16 +71,16 @@ class PerceptronTrain:
                 a = np.multiply(xi, self.w).sum() + self.b
 
                 if yi*a <= 0:
-                    # we update weights on error
-                    self.w = self.w + np.multiply(xi, yi)
-                    self.b = self.b + yi
-                    u = u + yi*xi*c
-                    beta = beta + yi*c
+                    # update weights on error
+                    self.w = self.w + np.multiply(xi, yi)*0.01
+                    self.b = self.b + yi*0.01
+                    u = u + yi*xi*c*0.01
+                    beta = beta + yi*c*0.01
                 
                 c += 1
             
-            # y_pred = self.predict(X, y)
-            # self.accuracy(y_pred, y)
+            y_pred = self.predict(X)
+            print("average accuracy:", self.accuracy(y_pred, y))
 
         u_by_c = np.multiply(u, 1/c)
         beta_by_c = np.multiply(beta, 1/c)
@@ -257,12 +264,12 @@ def main():
     store_weights("vanillamodel.txt", word_index, idf, w_vanilla_truth, b_vanilla_truth, w_vanilla_sentiment, b_vanilla_sentiment )    
 
     # AVERAGE
-    w_average_truth, b_average_truth = perceptron.train_average(tf_idf_vectorize_transformd_lines, truth_column, 10)
+    w_average_truth, b_average_truth = perceptron.train_average(tf_idf_vectorize_transformd_lines, truth_column, 15)
     y_pred = perceptron.predict(tf_idf_vectorize_transformd_lines)
     y_test = truth_column
     print("Training Accuracy for TRUE/FAKE detection (AVERAGE) - ", perceptron.accuracy(y_pred, y_test))
 
-    w_average_sentiment, b_average_sentiment = perceptron.train_average(tf_idf_vectorize_transformd_lines, sentiment_column, 10)
+    w_average_sentiment, b_average_sentiment = perceptron.train_average(tf_idf_vectorize_transformd_lines, sentiment_column, 15)
     y_pred = perceptron.predict(tf_idf_vectorize_transformd_lines)
     y_test = sentiment_column
     print("Training Accuracy for SENTIMENT classification (AVERAGE) - ", perceptron.accuracy(y_pred, y_test))

@@ -8,6 +8,13 @@ TRUTH_REVERSE_ENCODING = {1: "Fake", -1: "True"}
 SENTIMENT_REVERSE_ENCODING = {1: "Pos", -1: "Neg"}
 
 class PerceptronClassifier():
+    """
+        This class classifies input data using pre-trained weights
+
+        Attributes:
+            b: bias value
+            w: 1-D list of weights            
+    """
 
     def __init__(self):
         """
@@ -117,7 +124,6 @@ def main():
     y_pred_sentiment = sentiment_perceptron.predict(tf_idf_vectorize_transformd_test)
 
     output_file = "percepoutput.txt"
-    
     save_output(output_file, id_column, y_pred_truth, TRUTH_REVERSE_ENCODING, y_pred_sentiment, SENTIMENT_REVERSE_ENCODING)
 
 if __name__ == "__main__":
