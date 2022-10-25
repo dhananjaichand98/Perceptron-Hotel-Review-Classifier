@@ -1,0 +1,5 @@
+# ignore model files that contain saved model
+**/*model.txt
+
+# ignore file that contains output
+**/percepoutput.txt
